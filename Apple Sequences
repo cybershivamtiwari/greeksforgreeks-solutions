@@ -1,0 +1,20 @@
+int appleSequences(int n, int m, string arr){
+        int i = 0, j = 0;
+        int cnt = 0;
+        int ans = 0;
+        while(j < n)
+        {
+            if(arr[j] == 'O')
+                cnt++;
+            
+            //if 'O' count is greater than m, slide your window
+            while(cnt > m && i < j)
+            {
+                if(arr[i] == 'O')
+                    cnt--;
+                i++;
+            }
+            ans = max(ans, j - i + 1);
+            j++;
+        }
+        return ans;
