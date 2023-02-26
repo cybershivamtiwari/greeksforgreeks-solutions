@@ -1,0 +1,49 @@
+class Solution {
+  public: 
+int edges=0;
+  int vertices=1;
+  void dfs(vector<vector<int>>& adj,vector<bool>& mark,int i,int parent, set<pair<int,int>>&countedges)
+  {
+      mark[i]=true;
+    
+      for(auto x:adj[i])
+      {   
+          if(!mark[x])
+          {
+            dfs(adj,mark,x,i,countedges);
+            vertices++;
+            edges++;
+
+          }
+       
+             countedges.insert({i,x});
+             countedges.insert({x,i});
+      }
+      
+    
+
+  }
+    int findNumberOfGoodComponent(int v, vector<vector<int>>& adj) {
+        // code here
+        int ans=0;
+      
+        vector<bool>mark(v+1,false);
+        for(int i=1;i<=v;i++)
+        {
+            if(mark[i]) continue;
+            vertices=1;
+            edges=0;
+            set<pair<int,int>>countedges;
+            dfs(adj,mark,i,i,countedges);
+         int x = vertices*(vertices-1)/2;
+         edges=countedges.size()/2;
+            if(x==edges) 
+            { 
+               ans++;
+               
+            }
+          
+        }
+        return ans;
+    }
+};
