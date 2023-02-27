@@ -1,0 +1,39 @@
+class Solution {
+    
+    private static Node revList(Node head)
+    {
+        Node prev = null;
+        
+        while(head!=null)
+        {
+            Node nex = head.next;
+            head.next = prev;
+            prev = head;
+            head = nex;
+        }
+        
+        return prev;
+        
+    }
+    
+    public static Node reverse(Node head, int k) {
+        
+        Node node = head;
+        
+        for(int i=0; i<k-1; i++)
+        {
+            node = node.next;
+        }
+        
+        Node secondPart = node.next;
+        
+        node.next = null;
+        
+        Node firstPart = revList(head);
+        
+        head.next = revList(secondPart);
+        
+        return firstPart;
+        
+    }
+}
