@@ -1,0 +1,77 @@
+class Solution{
+
+public:
+
+    int minCost(vector<vector<int>> &costs) {
+
+        int n=costs.size(), k=costs[0].size();
+
+        if (n!=1 and k==1)
+
+            return -1;
+
+        int firstmn=1e9, secondmn=1e9;
+
+        vector<vector<int>> dp(n, vector<int>(k, -1));
+
+        for (int j=0; j<k; j++){
+
+            dp[0][j]=costs[0][j];
+
+            if (costs[0][j]<firstmn){
+
+                secondmn=firstmn;
+
+                firstmn=costs[0][j];
+
+            }
+
+            else if (costs[0][j]<secondmn)
+
+                secondmn=costs[0][j];
+
+        }
+
+        int fmn=1e9, smn=1e9;
+
+        for (int i=1; i<n; i++){
+
+            for (int j=0; j<k; j++){
+
+                if (firstmn==dp[i-1][j])
+
+                    dp[i][j]=secondmn+costs[i][j];
+
+                else 
+
+                    dp[i][j]=firstmn+costs[i][j];
+
+                if (dp[i][j]<fmn){
+
+                    smn=fmn;
+
+                    fmn=dp[i][j];
+
+                }
+
+                else if (dp[i][j]<smn)
+
+                    smn=dp[i][j];
+
+            }
+
+            firstmn=fmn;
+
+            secondmn=smn;
+
+            fmn=1e9; 
+
+            smn=1e9;
+
+        }
+
+        return firstmn;
+
+    }
+
+};
