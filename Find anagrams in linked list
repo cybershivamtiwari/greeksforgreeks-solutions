@@ -1,0 +1,52 @@
+class Solution {
+  public:
+    void flush(vector<int>& a){
+        for(int i = 0; i < 26; i++){
+            a[i] = 0;
+        }
+    }
+    vector<Node*> findAnagrams(struct Node* head, string s) {
+        // code here
+        int n = s.size();
+        vector<int>f(26,0),a(26,0);
+        vector<Node*>ans;
+        for(int i = 0; i < n; i++){
+            f[s[i]-'a']++;
+        }
+        Node* prev = head, *nex = head,* justprev = NULL;
+        int c = 0;
+        while(nex){
+            if(c < n){
+                a[nex->data-'a']++; c++;
+            }
+            else{
+                if(a == f){
+                    ans.push_back(prev);
+                    justprev->next = NULL;
+                    justprev = NULL;
+                    prev = nex;
+                    flush(a);
+                    if(!nex){
+                        break;
+                    }
+                    c = 1;
+                    a[nex->data-'a']++;
+                }
+                else{
+                    a[prev->data-'a']--;
+                    a[nex->data-'a']++;
+                    prev = prev->next;
+                }
+            }
+            justprev = nex;
+            nex = nex->next;
+        }
+        if(a == f){
+            ans.push_back(prev);
+            if(justprev){
+                justprev->next = NULL;
+            }
+        }
+        return ans;
+    }
+};
