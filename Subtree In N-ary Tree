@@ -1,0 +1,12 @@
+from collections import Counter
+
+class Solution:
+    def duplicateSubtreeNaryTree(self, root):
+        counts = Counter()
+        
+        def traverse(node):
+            serialized_node = (node.key, tuple(map(traverse, node.children)))
+            counts[serialized_node] += 1
+        
+        traverse(root)
+        return sum(1 for count in counts.values() if count > 1)
